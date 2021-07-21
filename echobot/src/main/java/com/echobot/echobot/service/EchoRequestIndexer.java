@@ -3,7 +3,7 @@ package com.echobot.echobot.service;
 import java.util.HashMap;
 import java.util.Random;
 
-import com.echobot.model.EchoRequest;
+import com.echobot.echobot.model.EchoRequest;
 
 import org.springframework.stereotype.Service;
 
@@ -12,10 +12,10 @@ public class EchoRequestIndexer {
     private HashMap<String, EchoRequest> echoRequestIndex = new HashMap<>();
 
     private String generateToken() {
-        int leftLimit = 48;
-        int rightLimit = 122;
-        int targetStringLength = 24;
-        Random random = new Random();
+        final int leftLimit = 48;
+        final int rightLimit = 122;
+        final int targetStringLength = 24;
+        final Random random = new Random();
 
         String generatedString = random.ints(leftLimit, rightLimit + 1)
                 .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
@@ -27,15 +27,17 @@ public class EchoRequestIndexer {
         return generatedString;
     }
 
-    public void addToQueue(EchoRequest echoRequest) {
-        this.echoRequestIndex.put(generateToken(), echoRequest);
+    public String addToQueue(final EchoRequest echoRequest) {
+        final String token = generateToken();
+        this.echoRequestIndex.put(token, echoRequest);
+        return token;
     }
 
     public HashMap<String, EchoRequest> getEchoRequestIndex() {
         return this.echoRequestIndex;
     }
 
-    public void setEchoRequestIndex(HashMap<String, EchoRequest> echoRequestIndex) {
+    public void setEchoRequestIndex(final HashMap<String, EchoRequest> echoRequestIndex) {
         this.echoRequestIndex = echoRequestIndex;
     }
 

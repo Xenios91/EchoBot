@@ -18,10 +18,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private String systemDeployment;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         if (systemDeployment.equals("prod")) {
             http.authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated().and().formLogin()
                     .loginPage("/login").permitAll().and().logout().permitAll();
+        } else {
+            http.cors().and().csrf().disable();
         }
 
     }
@@ -29,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER")
+        final UserDetails user = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER")
                 .build();
 
         return new InMemoryUserDetailsManager(user);
