@@ -1,16 +1,20 @@
 package Handlers
 
 import (
+	EchoRequest "EchoBot/echo_request"
+	Service "EchoBot/service"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 )
 
-func home_handler(w http.ResponseWriter, r *http.Request) {
+func homeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Home Page")
 }
 
-func echo_request_handler(w http.ResponseWriter, r *http.Request) {
+func echoRequestHandler(w http.ResponseWriter, r *http.Request) {
 	var requestParameters url.Values = r.URL.Query()
 	var token string = requestParameters.Get("token")
 	if len(token) != 24 {
@@ -19,14 +23,26 @@ func echo_request_handler(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Fprintf(w, "An invalid token [%s] has been submitted, please try again!\n", token)
 	}
+	echoRequestMessage := Service.GetEchoRequestService().GetEchoMap()[token].Message
+	fmt.Fprintln(w, echoRequestMessage)
 }
 
-func echo_request_generator(w http.ResponseWriter, r *http.Request) {
-	//todo
+func echoRequestGenerator(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Printf("Error reading body: %v", err)
+		http.Error(w, "can't read body", http.StatusBadRequest)
+		return
+	}
+	fmt.Println(body)
+	echoRequestService := Service.GetEchoRequestService()
+	echoRequest := EchoRequest.EchoRequest{Ip: "test", Message: "test"}
+	token := echoRequestService.AddToMap(echoRequest)
+	fmt.Fprintln(w, *token)
 }
 
 func Load_handlers() {
-	http.HandleFunc("/", home_handler)
-	http.HandleFunc("/echo", echo_request_handler)
-	http.HandleFunc("/createEchoRequest", echo_request_generator)
+	http.HandleFunc("/", homeHandler)
+	http.HandleFunc("/echo", echoRequestHandler)
+	http.HandleFunc("/createEchoRequest", echoRequestGenerator)
 }
