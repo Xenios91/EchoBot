@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -34,10 +35,10 @@ func echoRequestGenerator(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "can't read body", http.StatusBadRequest)
 		return
 	}
-	fmt.Println(body)
+	requestBody := string(body)
 	echoRequestService := Service.GetEchoRequestService()
-	echoRequest := EchoRequest.EchoRequest{Ip: "test", Message: "test"}
-	token := echoRequestService.AddToMap(echoRequest)
+	echoRequest := EchoRequest.EchoRequest{Ip: strings.Split((r.RemoteAddr), ":")[0], Message: requestBody}
+	token := echoRequestService.AddToMap(&echoRequest)
 	fmt.Fprintln(w, *token)
 }
 

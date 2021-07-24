@@ -41,9 +41,9 @@ func (echoRequestService EchoRequestService) GetEchoMap() map[string]echoRequest
 	return echoRequestService.echo_map
 }
 
-func (echoRequestService EchoRequestService) AddToMap(echoRequest echoRequest.EchoRequest) *string {
+func (echoRequestService EchoRequestService) AddToMap(echoRequest *echoRequest.EchoRequest) *string {
 	echoRequest.Token = generateToken()
 	echoRequest.TimeToTerminate = time.Now().Local().Add(time.Hour * time.Duration(4))
-	echoRequestService.echo_map[*echoRequest.Token] = echoRequest
+	echoRequestService.echo_map[*echoRequest.Token] = *echoRequest
 	return echoRequest.Token
 }
