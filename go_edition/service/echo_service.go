@@ -5,11 +5,10 @@ import (
 	"crypto/rand"
 	"fmt"
 	"sync"
-	"time"
 )
 
 type EchoRequestService struct {
-	echo_map map[string]echoRequest.EchoRequest
+	echoMap map[string]echoRequest.EchoRequest
 }
 
 var (
@@ -17,11 +16,25 @@ var (
 	echoRequestService *EchoRequestService
 )
 
+func runEchoServiceTask() {
+	echoServiceCleanUpTask()
+}
+
+func echoServiceCleanUpTask() {
+	if echoRequestService != nil {
+		for key, value := range echoRequestService.echoMap {
+			if value.IsPastTimeToTerminate() {
+				delete(echoRequestService.echoMap, key)
+			}
+		}
+	}
+}
+
 func generateToken() *string {
 	b := make([]byte, 12)
 	rand.Read(b)
 	token := fmt.Sprintf("%x", b)
-	if _, ok := echoRequestService.echo_map[token]; ok {
+	if _, ok := echoRequestService.echoMap[token]; ok {
 		token = *generateToken()
 	}
 	return &token
@@ -30,20 +43,19 @@ func generateToken() *string {
 func GetEchoRequestService() *EchoRequestService {
 	once := func() {
 		echoRequestService = &EchoRequestService{}
-		echoRequestService.echo_map = make(map[string]echoRequest.EchoRequest)
+		echoRequestService.echoMap = make(map[string]echoRequest.EchoRequest)
 	}
-
 	doOnce.Do(once)
 	return echoRequestService
 }
 
 func (echoRequestService EchoRequestService) GetEchoMap() map[string]echoRequest.EchoRequest {
-	return echoRequestService.echo_map
+	return echoRequestService.echoMap
 }
 
 func (echoRequestService EchoRequestService) AddToMap(echoRequest *echoRequest.EchoRequest) *string {
 	echoRequest.Token = generateToken()
-	echoRequest.TimeToTerminate = time.Now().Local().Add(time.Hour * time.Duration(4))
-	echoRequestService.echo_map[*echoRequest.Token] = *echoRequest
+	echoRequest.GenerateTimeToTerminate()
+	echoRequestService.echoMap[*echoRequest.Token] = *echoRequest
 	return echoRequest.Token
 }
