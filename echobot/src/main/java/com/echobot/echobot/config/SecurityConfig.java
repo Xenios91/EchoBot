@@ -14,26 +14,26 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Value("${system.deployment}")
-    private String systemDeployment;
+	@Value("${system.deployment}")
+	private String systemDeployment;
 
-    @Override
-    protected void configure(final HttpSecurity http) throws Exception {
-        if (systemDeployment.equals("prod")) {
-            http.authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated().and().formLogin()
-                    .loginPage("/login").permitAll().and().logout().permitAll();
-        } else {
-            http.cors().and().csrf().disable();
-        }
+	@Override
+	protected void configure(final HttpSecurity http) throws Exception {
+		if (this.systemDeployment.equals("prod")) {
+			http.authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated().and().formLogin()
+					.loginPage("/login").permitAll().and().logout().permitAll();
+		} else {
+			http.cors().and().csrf().disable();
+		}
 
-    }
+	}
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        final UserDetails user = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER")
-                .build();
+	@Bean
+	@Override
+	public UserDetailsService userDetailsService() {
+		final UserDetails user = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER")
+				.build();
 
-        return new InMemoryUserDetailsManager(user);
-    }
+		return new InMemoryUserDetailsManager(user);
+	}
 }
