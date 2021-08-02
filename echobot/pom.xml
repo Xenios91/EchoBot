@@ -59,5 +59,10 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	
+<properties>
+  <sonar.projectKey>Xenios91_EchoBot</sonar.projectKey>
+  <sonar.organization>xenios91-github</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+</properties>
 </project>
