@@ -36,6 +36,7 @@ public class EndPoints {
                 TimeUnit.SECONDS.sleep(delay);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
         return echoRequest.getRequestBody();
