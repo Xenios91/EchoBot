@@ -1,10 +1,11 @@
 package Handlers
 
 import (
-	"fmt"
+	"html/template"
 	"net/http"
 )
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Home Page")
+	tmpl := template.Must(template.ParseFiles("static/template/home_template.html"))
+	tmpl.Execute(w, nil)
 }

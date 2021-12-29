@@ -3,9 +3,9 @@ package Echorequest
 import "time"
 
 type EchoRequest struct {
-	Ip              *string
-	Message         *string
-	Token           *string
+	Ip              string
+	Message         string
+	Token           string
 	timeToTerminate *time.Time
 	delay           int
 }

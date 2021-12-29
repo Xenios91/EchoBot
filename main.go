@@ -23,6 +23,6 @@ func startServices() {
 func startServer() {
 	loadHandlers()
 	startServices()
-	log.Println("EchoBot server started!")
+	log.Printf("EchoBot server started on port %d!\n", 8080)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

@@ -30,14 +30,15 @@ func echoServiceCleanUpTask() {
 	}
 }
 
-func generateToken() *string {
-	b := make([]byte, 12)
+func generateToken() string {
+	b := make([]byte, 16)
 	rand.Read(b)
 	token := fmt.Sprintf("%x", b)
 	if _, ok := echoRequestService.echoMap[token]; ok {
-		token = *generateToken()
+		token = generateToken()
 	}
-	return &token
+	fmt.Println(len(token))
+	return token
 }
 
 func GetEchoRequestService() *EchoRequestService {
@@ -53,9 +54,9 @@ func (echoRequestService EchoRequestService) GetEchoMap() map[string]echoRequest
 	return echoRequestService.echoMap
 }
 
-func (echoRequestService EchoRequestService) AddToMap(echoRequest *echoRequest.EchoRequest) *string {
+func (echoRequestService EchoRequestService) AddToMap(echoRequest *echoRequest.EchoRequest) string {
 	echoRequest.Token = generateToken()
 	echoRequest.GenerateTimeToTerminate()
-	echoRequestService.echoMap[*echoRequest.Token] = *echoRequest
+	echoRequestService.echoMap[echoRequest.Token] = *echoRequest
 	return echoRequest.Token
 }
