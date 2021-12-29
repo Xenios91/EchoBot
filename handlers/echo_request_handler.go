@@ -11,10 +11,6 @@ import (
 	"strings"
 )
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Home Page")
-}
-
 func echoRequestHandler(w http.ResponseWriter, r *http.Request) {
 	var requestParameters url.Values = r.URL.Query()
 	var token string = requestParameters.Get("token")
@@ -32,22 +28,17 @@ func echoRequestGenerator(w http.ResponseWriter, r *http.Request) {
 	var requestParameters url.Values = r.URL.Query()
 	var performance string = requestParameters.Get("performance")
 
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
+	if body, err := ioutil.ReadAll(r.Body); err != nil {
 		log.Printf("Error reading body: %v", err)
 		http.Error(w, "can't read body", http.StatusBadRequest)
 		return
+	} else {
+		requestBody := string(body)
+		echoRequestService := Service.GetEchoRequestService()
+		echoRequest := EchoRequest.EchoRequest{Ip: &strings.Split((r.RemoteAddr), ":")[0], Message: &requestBody}
+		echoRequest.SetPerformance(performance)
+		token := echoRequestService.AddToMap(&echoRequest)
+		fmt.Fprintln(w, *token)
 	}
-	requestBody := string(body)
-	echoRequestService := Service.GetEchoRequestService()
-	echoRequest := EchoRequest.EchoRequest{Ip: &strings.Split((r.RemoteAddr), ":")[0], Message: &requestBody}
-	echoRequest.SetPerformance(&performance)
-	token := echoRequestService.AddToMap(&echoRequest)
-	fmt.Fprintln(w, *token)
-}
 
-func LoadHandlers() {
-	http.HandleFunc("/", homeHandler)
-	http.HandleFunc("/echo", echoRequestHandler)
-	http.HandleFunc("/createEchoRequest", echoRequestGenerator)
 }

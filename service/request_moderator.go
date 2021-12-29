@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	ticker = time.NewTicker(10 * time.Second)
+	ticker = time.NewTicker(60 * time.Second)
 )
 
 func runServiceTasks() {

@@ -20,8 +20,8 @@ func (echoRequest *EchoRequest) GenerateTimeToTerminate() {
 	echoRequest.timeToTerminate = &timeToTerminate
 }
 
-func (echoRequest *EchoRequest) SetPerformance(performance *string) {
-	switch *performance {
+func (echoRequest *EchoRequest) SetPerformance(performance string) {
+	switch performance {
 	case "low":
 		echoRequest.delay = 2
 	case "medium":
