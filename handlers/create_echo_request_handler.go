@@ -28,10 +28,10 @@ func createEchoRequestHandler(w http.ResponseWriter, r *http.Request) {
 	token := echoRequestService.AddToMap(&echoRequest)
 	requestUrl := fmt.Sprintf("http://localhost:8080/echo?token=%s", token)
 
-	tmpl := template.Must(template.ParseFiles("static/template/response_template.html"))
+	tmpl, _ := template.ParseFiles("static/template/default_template.html", "static/template/response_template.html")
 	echoUrl := echoUrl{Url: requestUrl}
 
-	if err := tmpl.Execute(w, echoUrl); err != nil {
+	if err := tmpl.ExecuteTemplate(w, "layout", echoUrl); err != nil {
 		log.Printf("Error: %s", err)
 	}
 }
