@@ -1,13 +1,16 @@
 package Echorequest
 
-import "time"
+import (
+	"strings"
+	"time"
+)
 
 type EchoRequest struct {
 	Ip              string
 	Message         string
 	Token           string
 	timeToTerminate *time.Time
-	delay           int
+	Delay           int
 }
 
 func (echoRequest *EchoRequest) IsPastTimeToTerminate() bool {
@@ -21,20 +24,24 @@ func (echoRequest *EchoRequest) GenerateTimeToTerminate() {
 }
 
 func (echoRequest *EchoRequest) SetPerformance(performance string) {
+	performance = strings.ToLower(performance)
+
 	switch performance {
+	case "none":
+		echoRequest.Delay = 0
 	case "low":
-		echoRequest.delay = 2
+		echoRequest.Delay = 2
 	case "medium":
-		echoRequest.delay = 5
+		echoRequest.Delay = 5
 	case "high":
-		echoRequest.delay = 10
+		echoRequest.Delay = 10
 	case "insane":
-		echoRequest.delay = 15
+		echoRequest.Delay = 15
 	default:
-		echoRequest.delay = 0
+		echoRequest.Delay = 0
 	}
 }
 
 func (echoRequest *EchoRequest) GetPerformance() int {
-	return echoRequest.delay
+	return echoRequest.Delay
 }

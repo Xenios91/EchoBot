@@ -37,7 +37,6 @@ func generateToken() string {
 	if _, ok := echoRequestService.echoMap[token]; ok {
 		token = generateToken()
 	}
-	fmt.Println(len(token))
 	return token
 }
 
