@@ -3,8 +3,11 @@ package main
 import (
 	handlers "EchoBot/handlers"
 	service "EchoBot/service"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 )
 
 func main() {
@@ -23,6 +26,18 @@ func startServices() {
 func startServer() {
 	loadHandlers()
 	startServices()
-	log.Printf("EchoBot server started on port %d!\n", 8080)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+
+	var port string
+	if len(os.Args) > 1 {
+		if _, err := strconv.Atoi(os.Args[1]); err != nil {
+			log.Println(fmt.Sprintf("Port cannot be [%s], assigning default port 8080", os.Args[1]))
+		} else {
+			port = os.Args[1]
+		}
+	} else {
+		port = "8080"
+	}
+
+	log.Printf("EchoBot server started on port %s!\n", port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }

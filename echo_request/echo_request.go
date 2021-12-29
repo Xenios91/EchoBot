@@ -19,7 +19,7 @@ func (echoRequest *EchoRequest) IsPastTimeToTerminate() bool {
 }
 
 func (echoRequest *EchoRequest) GenerateTimeToTerminate() {
-	timeToTerminate := time.Now().Add(time.Hour * time.Duration(4))
+	timeToTerminate := time.Now().Add(time.Hour * time.Duration(12))
 	echoRequest.timeToTerminate = &timeToTerminate
 }
 
