@@ -10,8 +10,8 @@ import (
 	"strings"
 )
 
-type echoUrl struct {
-	Url string
+type echoURL struct {
+	URL string
 }
 
 func createEchoRequestHandler(w http.ResponseWriter, r *http.Request) {
@@ -24,15 +24,15 @@ func createEchoRequestHandler(w http.ResponseWriter, r *http.Request) {
 	var requestBody string = r.FormValue("responseBodyRequested")
 
 	echoRequestService := Service.GetEchoRequestService()
-	echoRequest := EchoRequest.EchoRequest{Ip: strings.Split((r.RemoteAddr), ":")[0], Message: requestBody}
+	echoRequest := EchoRequest.EchoRequest{IP: strings.Split((r.RemoteAddr), ":")[0], Message: requestBody}
 	echoRequest.SetPerformance(performance)
 	echoRequest.SetContentType(contentType)
 
 	token := echoRequestService.AddToMap(&echoRequest)
-	requestUrl := fmt.Sprintf("http://localhost:8080/echo?token=%s", token)
+	requestURL := fmt.Sprintf("http://localhost:8080/echo?token=%s", token)
 
 	tmpl, _ := template.ParseFiles("static/template/default_template.html", "static/template/response_template.html")
-	echoUrl := echoUrl{Url: requestUrl}
+	echoUrl := echoURL{URL: requestURL}
 
 	if err := tmpl.ExecuteTemplate(w, "layout", echoUrl); err != nil {
 		log.Printf("Error: %s", err)

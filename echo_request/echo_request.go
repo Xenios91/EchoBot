@@ -6,7 +6,7 @@ import (
 )
 
 type EchoRequest struct {
-	Ip              string
+	IP              string
 	Message         string
 	Token           string
 	timeToTerminate *time.Time
@@ -46,13 +46,13 @@ func (echoRequest *EchoRequest) SetPerformance(performance string) {
 	case "none":
 		echoRequest.Delay = 0
 	case "low":
-		echoRequest.Delay = 2
+		echoRequest.Delay = 1
 	case "medium":
-		echoRequest.Delay = 5
+		echoRequest.Delay = 3
 	case "high":
-		echoRequest.Delay = 10
+		echoRequest.Delay = 7
 	case "insane":
-		echoRequest.Delay = 15
+		echoRequest.Delay = 10
 	default:
 		echoRequest.Delay = 0
 	}
