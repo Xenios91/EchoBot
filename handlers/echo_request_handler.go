@@ -15,7 +15,7 @@ func echoRequestHandler(w http.ResponseWriter, r *http.Request) {
 	if value, ok := Service.GetEchoRequestService().GetEchoMap()[token]; ok {
 		time.Sleep(time.Duration(time.Duration(value.Delay) * time.Second))
 
-		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Content-Type", value.ContentType)
 		w.Write([]byte(value.Message))
 	} else {
 		fmt.Fprintf(w, "An invalid token [%s] has been submitted, please try again!\n", token)

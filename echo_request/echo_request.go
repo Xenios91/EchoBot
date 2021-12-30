@@ -11,6 +11,7 @@ type EchoRequest struct {
 	Token           string
 	timeToTerminate *time.Time
 	Delay           int
+	ContentType     string
 }
 
 func (echoRequest *EchoRequest) IsPastTimeToTerminate() bool {
@@ -21,6 +22,21 @@ func (echoRequest *EchoRequest) IsPastTimeToTerminate() bool {
 func (echoRequest *EchoRequest) GenerateTimeToTerminate() {
 	timeToTerminate := time.Now().Add(time.Hour * time.Duration(12))
 	echoRequest.timeToTerminate = &timeToTerminate
+}
+
+func (echoRequest *EchoRequest) SetContentType(contentType string) {
+	contentType = strings.ToLower(contentType)
+
+	switch contentType {
+	case "json":
+		echoRequest.ContentType = "application/json"
+	case "xml":
+		echoRequest.ContentType = "application/xml"
+	case "plaintext":
+		echoRequest.ContentType = "text/plain"
+	default:
+		echoRequest.ContentType = "text/plain"
+	}
 }
 
 func (echoRequest *EchoRequest) SetPerformance(performance string) {
@@ -40,8 +56,4 @@ func (echoRequest *EchoRequest) SetPerformance(performance string) {
 	default:
 		echoRequest.Delay = 0
 	}
-}
-
-func (echoRequest *EchoRequest) GetPerformance() int {
-	return echoRequest.Delay
 }
