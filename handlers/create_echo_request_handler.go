@@ -16,7 +16,8 @@ type echoURL struct {
 
 func createEchoRequestHandler(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		log.Printf("Error: %s", err)
+		http.Error(w, "ParseFormError", http.StatusBadRequest)
 		return
 	}
 	var performance string = r.FormValue("performance")
@@ -36,5 +37,6 @@ func createEchoRequestHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err := tmpl.ExecuteTemplate(w, "layout", echoUrl); err != nil {
 		log.Printf("Error: %s", err)
+		http.Error(w, "ParseFormError", http.StatusInternalServerError)
 	}
 }

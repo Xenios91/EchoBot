@@ -18,7 +18,8 @@ func echoRequestHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", value.ContentType)
 		w.Write([]byte(value.Message))
 	} else {
-		fmt.Fprintf(w, "An invalid token [%s] has been submitted, please try again!\n", token)
+		errorMessage := fmt.Sprintf("An invalid token [%s] has been submitted, please try again!\n", token)
+		http.Error(w, errorMessage, http.StatusBadRequest)
 	}
 
 }
