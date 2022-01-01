@@ -1,0 +1,23 @@
+{{define "body"}}
+<div class="mx-5">
+    <form method="POST" action="/getAPIResponse" id="apiForm">
+        <div class="form-group mt-5">
+            <label for="formControlSelect1">HTTP Method</label>
+            <select class="form-control" id="http-method" name="http-method">
+                <option>GET</option>
+                <option>POST</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="formControlInput1">URL</label>
+            <input type="text" class="form-control" id="url" name="url" placeholder="http://www.example.com">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Response</label>
+            <textarea class="form-control" id="response" name="response" rows="10" disabled></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button onclick="history.back()" type="button" class="btn btn-primary ml-4">Back</button>
+    </form>
+</div>
+{{end}}

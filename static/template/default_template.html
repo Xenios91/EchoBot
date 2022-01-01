@@ -3,6 +3,15 @@
 <html lang="en">
 
 <head>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand " href="/">
+                <img src="static/images/robot_icon.png" alt="Robot Logo" style="width: 75px; height: 75px"
+                    class="d-inline-block align-text-center">
+            </a>
+        </div>
+
+    </nav>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,9 +24,6 @@
 </head>
 
 <body>
-    <div id="overview" class="mx-5">
-        <img src="static/images/robot_icon.png" alt="Robot Logo" style="width: 75px; height: 75px">
-    </div>
     <div class="mx-5">
         {{template "body" .}}
     </div>
@@ -32,6 +38,30 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $("#apiForm").submit(function (e) {
+
+            e.preventDefault();
+
+            var form = $(this);
+            var url = form.attr('action');
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(),
+                success: function (data) {
+                    document.getElementById("response").innerHTML = data;
+                }
+            });
+
+
+        });
+    </script>
 </body>
 
 </html>
