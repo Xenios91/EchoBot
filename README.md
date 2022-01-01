@@ -9,12 +9,8 @@ A simple web application to use to echo back string data to test frontends and b
 
 ### Starting EchoBot
 
-```
-./EchoBot
-```
+```./EchoBot```
 
 ### Setting EchoBot Port
 
-```
-./EchoBot {PORT_NUM}
-```
+```./EchoBot {PORT_NUM}```
