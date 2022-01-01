@@ -33,9 +33,9 @@ func createEchoRequestHandler(w http.ResponseWriter, r *http.Request) {
 	requestURL := fmt.Sprintf("http://localhost:8080/echo?token=%s", token)
 
 	tmpl, _ := template.ParseFiles("static/template/default_template.html", "static/template/response_template.html")
-	echoUrl := echoURL{URL: requestURL}
+	echoURL := echoURL{URL: requestURL}
 
-	if err := tmpl.ExecuteTemplate(w, "layout", echoUrl); err != nil {
+	if err := tmpl.ExecuteTemplate(w, "layout", echoURL); err != nil {
 		log.Printf("Error: %s", err)
 		http.Error(w, "ParseFormError", http.StatusInternalServerError)
 	}
