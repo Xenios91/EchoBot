@@ -1,6 +1,7 @@
 package Handlers
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"html/template"
@@ -10,15 +11,20 @@ import (
 	"regexp"
 )
 
-func checkURL(url string) bool {
-	regex := `https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`
+type response struct {
+	StatusCode  int
+	ContentType string
+	Body        string
+}
 
+func checkURL(url string) bool {
+	regex := "((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)"
 	match, err := regexp.MatchString(regex, url)
 
 	return match && (err == nil)
 }
 
-func submitHTTPRequest(httpMethod, url, contentType string, body io.Reader) (*string, error) {
+func submitHTTPRequest(httpMethod, url, contentType string, body io.Reader) (*response, error) {
 	var b []byte
 	var err error
 	var resp *http.Response
@@ -26,28 +32,28 @@ func submitHTTPRequest(httpMethod, url, contentType string, body io.Reader) (*st
 	switch httpMethod {
 	case "GET":
 		if resp, err = http.Get(url); err != nil {
-			log.Println("An error has occured")
+			log.Printf("An error has occured [%s]\n", err)
 		} else {
 			b, err = io.ReadAll(resp.Body)
 			if err != nil {
-				log.Fatalln(err)
+				log.Printf("An error has occured [%s]\n", err)
 			}
 
-			resp := string(b)
-			return &resp, err
+			response := &response{StatusCode: resp.StatusCode, ContentType: resp.Header.Get("Content-Type"), Body: string(b)}
+			return response, err
 		}
 
 	case "POST":
 		if resp, err = http.Post(url, contentType, body); err != nil {
-			log.Println("An error has occured")
+			log.Printf("An error has occured [%s]\n", err)
 		} else {
 			b, err = io.ReadAll(resp.Body)
 			if err != nil {
-				log.Fatalln(err)
+				log.Printf("An error has occured [%s]\n", err)
 			}
 
-			resp := string(b)
-			return &resp, err
+			response := &response{StatusCode: resp.StatusCode, ContentType: resp.Header.Get("content-type"), Body: string(b)}
+			return response, err
 		}
 
 	default:
@@ -75,14 +81,19 @@ func getAPIResponse(w http.ResponseWriter, r *http.Request) {
 		var body io.Reader
 
 		if !checkURL(url) {
-			http.Error(w, "Invalid URL", http.StatusBadRequest)
+			http.Error(w, "invalid url", http.StatusBadRequest)
 			return
 		}
 
 		if resp, err := submitHTTPRequest(httpMethod, url, contentType, body); err != nil {
-			http.Error(w, "An error has occured", http.StatusBadRequest)
+			http.Error(w, "an error has occurred", http.StatusBadRequest)
 		} else {
-			fmt.Fprint(w, *resp)
+			jsonResponse, err := json.Marshal(*resp)
+			if err != nil {
+				http.Error(w, "an error has occurred", http.StatusInternalServerError)
+			} else {
+				fmt.Fprint(w, string(jsonResponse))
+			}
 		}
 	}
 }
