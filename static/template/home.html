@@ -1,27 +1,31 @@
 {{define "body"}}
-<div class="container">
-    <div class="card text-center">
-        <div class="card-header">
-            EchoBot Activated!
-        </div>
+<div class="container mt-5" style="width: 50%">
+    <div class="mx-5 border">
         <div class="row">
-            <div class="col">
-                <div class="card-body">
-                    <h5 class="card-title">Create An Echo Request</h5>
-                    <p class="card-text"></p>
-                    <a href="/createEchoRequest" class="btn btn-primary">Lets Go</a>
+            <div class="col mx-5">
+                <div class="mt-5 mb-5">
+                    <div class="card">
+                        <h5 class="card-header">Create An Echo Request</h5>
+                        <div class="card-body">
+                            <p class="card-text">Create an echo request to replay an http request
+                            </p>
+                            <a href="/createEchoRequest" class="btn btn-primary">Let's Go</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card-body">
-                    <h5 class="card-title">Get An API Response</h5>
-                    <p class="card-text"></p>
-                    <a href="/getAPIResponse" class="btn btn-primary">Lets Go</a>
+            <div class="col mx-5">
+                <div class="mt-5 mb-5">
+                    <div class="card">
+                        <h5 class="card-header">Call An API</h5>
+                        <div class="card-body">
+                            <p class="card-text">Create an API call and display the results
+                            </p>
+                            <a href="/getAPIResponse" class="btn btn-primary">Let's Go</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card-footer text-muted">
         </div>
     </div>
-</div>
-{{end}}
+    {{end}}
