@@ -46,15 +46,15 @@ $("#apiForm").submit(function (e) {
 
     $.ajax({
         type: "POST",
-        url: url,
+        url,
         data: form.serialize(),
-        success: function (data) {
+        success: (data) => {
             const object = JSON.parse(data);
             document.getElementById("status-code").value = object.StatusCode;
             document.getElementById("resp-content-type").value = object.ContentType;
             document.getElementById("response").innerHTML = object.Body;
         },
-        error: function (data) {
+        error: () => {
             alert("An unknown error has occurred");
         }
     });
