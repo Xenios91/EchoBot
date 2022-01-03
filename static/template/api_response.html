@@ -2,23 +2,27 @@
 <div class="mx-5">
     <form method="POST" action="/getAPIResponse" id="apiForm">
         <div class="form-group">
-            <label for="formControlSelect1">HTTP Method</label>
+            <label>HTTP Method</label>
             <select class="form-control" id="http-method" name="http-method">
                 <option>GET</option>
                 <option>POST</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="formControlSelect1">Content Type</label>
+            <label>Content Type</label>
             <select class="form-control" id="content-type" name="content-type">
                 <option>application/json</option>
                 <option>application/xml</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="formControlInput1">URL</label>
+            <label>URL</label>
             <input type="text" class="form-control" id="url" name="url" placeholder="http://www.example.com" required>
             <span class="text-danger" id="url-error" style="display: none;">Invalid URL</span>
+        </div>
+        <div class="form-group">
+            <label>Request Body</label>
+            <textarea class="form-control" id="request-body" name="request-body" rows="5"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <button onclick="history.back()" type="button" class="btn btn-primary ml-4">Back</button>
@@ -28,15 +32,15 @@
         <h3 class="mt-2">Response</h3>
         <form>
             <div class="form-group">
-                <label for="formControlInput1">Status Code</label>
+                <label>Status Code</label>
                 <input type="text" class="form-control" name="status-code" id="status-code" disabled>
             </div>
             <div class="form-group">
-                <label for="formControlInput1">Content Type</label>
+                <label>Content Type</label>
                 <input type="text" class="form-control" name="resp-content-type" id="resp-content-type" disabled>
             </div>
             <div class="form-group">
-                <label for="exampleFormControlTextarea1">Response</label>
+                <label>Response</label>
                 <textarea class="form-control" id="response" name="response" rows="8" disabled></textarea>
             </div>
         </form>

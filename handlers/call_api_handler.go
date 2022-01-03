@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"regexp"
+	"strings"
 )
 
 type response struct {
@@ -18,6 +19,9 @@ type response struct {
 }
 
 func checkURL(url string) bool {
+	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
+		url = fmt.Sprintf("http://%s", url)
+	}
 	regex := "((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)"
 	match, err := regexp.MatchString(regex, url)
 
@@ -78,7 +82,7 @@ func getAPIResponse(w http.ResponseWriter, r *http.Request) {
 		var httpMethod string = r.FormValue("http-method")
 		var url string = r.FormValue("url")
 		var contentType string = r.FormValue("content-type")
-		var body io.Reader
+		var body io.Reader = strings.NewReader(r.FormValue("request-body"))
 
 		if !checkURL(url) {
 			http.Error(w, "invalid url", http.StatusBadRequest)
