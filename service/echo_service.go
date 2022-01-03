@@ -8,7 +8,7 @@ import (
 )
 
 type EchoRequestService struct {
-	echoMap map[string]echoRequest.EchoRequest
+	echoMap map[string]*echoRequest.EchoRequest
 }
 
 var (
@@ -43,19 +43,19 @@ func generateToken() string {
 func GetEchoRequestService() *EchoRequestService {
 	once := func() {
 		echoRequestService = &EchoRequestService{}
-		echoRequestService.echoMap = make(map[string]echoRequest.EchoRequest)
+		echoRequestService.echoMap = make(map[string]*echoRequest.EchoRequest)
 	}
 	doOnce.Do(once)
 	return echoRequestService
 }
 
-func (echoRequestService EchoRequestService) GetEchoMap() map[string]echoRequest.EchoRequest {
+func (echoRequestService EchoRequestService) GetEchoMap() map[string]*echoRequest.EchoRequest {
 	return echoRequestService.echoMap
 }
 
 func (echoRequestService EchoRequestService) AddToMap(echoRequest *echoRequest.EchoRequest) string {
 	echoRequest.Token = generateToken()
 	echoRequest.GenerateTimeToTerminate()
-	echoRequestService.echoMap[echoRequest.Token] = *echoRequest
+	echoRequestService.echoMap[echoRequest.Token] = echoRequest
 	return echoRequest.Token
 }

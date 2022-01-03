@@ -51,11 +51,9 @@ func createEchoRequestHandler(w http.ResponseWriter, r *http.Request) {
 		var requestBody string = r.FormValue("responseBodyRequested")
 
 		echoRequestService := Service.GetEchoRequestService()
-		echoRequest := EchoRequest.EchoRequest{IP: strings.Split((r.RemoteAddr), ":")[0], Message: requestBody}
-		echoRequest.SetPerformance(performance)
-		echoRequest.SetContentType(contentType)
+		echoRequest := EchoRequest.New(strings.Split((r.RemoteAddr), ":")[0], requestBody, contentType, performance)
 
-		token := echoRequestService.AddToMap(&echoRequest)
+		token := echoRequestService.AddToMap(echoRequest)
 		requestURL := fmt.Sprintf("http://localhost:8080/echo?token=%s", token)
 
 		tmpl, _ := template.ParseFiles("static/template/default_template.html", "static/template/echo_response.html")

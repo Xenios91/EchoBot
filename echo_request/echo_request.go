@@ -14,6 +14,14 @@ type EchoRequest struct {
 	ContentType     string
 }
 
+func New(ip, message, contentType, performance string) *EchoRequest {
+	er := EchoRequest{IP: ip, Message: message}
+	er.setPerformance(performance)
+	er.setContentType(contentType)
+
+	return &er
+}
+
 func (echoRequest *EchoRequest) IsPastTimeToTerminate() bool {
 	var currentTime = time.Now()
 	return echoRequest.timeToTerminate.Before(currentTime)
@@ -24,7 +32,7 @@ func (echoRequest *EchoRequest) GenerateTimeToTerminate() {
 	echoRequest.timeToTerminate = &timeToTerminate
 }
 
-func (echoRequest *EchoRequest) SetContentType(contentType string) {
+func (echoRequest *EchoRequest) setContentType(contentType string) {
 	contentType = strings.ToLower(contentType)
 
 	switch contentType {
@@ -39,7 +47,7 @@ func (echoRequest *EchoRequest) SetContentType(contentType string) {
 	}
 }
 
-func (echoRequest *EchoRequest) SetPerformance(performance string) {
+func (echoRequest *EchoRequest) setPerformance(performance string) {
 	performance = strings.ToLower(performance)
 
 	switch performance {

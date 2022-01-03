@@ -45,6 +45,10 @@
     <script>
 
         function validateURL(url) {
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                url = "http://" + url
+            }
+
             const pattern = new RegExp('((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)');
 
             if (!pattern.test(url)) {
