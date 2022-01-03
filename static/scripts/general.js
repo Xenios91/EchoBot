@@ -24,7 +24,7 @@ function setInvalidInput() {
 
 function methodSelectionChange() {
     const requestBody = document.getElementById("request-body");
-    if (document.getElementById("http-method").value == "GET") {
+    if (document.getElementById("http-method").value === "GET") {
         requestBody.style.display = "none";
     } else {
         requestBody.style.display = "block";
