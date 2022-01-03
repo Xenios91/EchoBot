@@ -34,7 +34,6 @@ function methodSelectionChange() {
 $("#apiForm").submit(function (e) {
 
     e.preventDefault();
-
     resetForm();
 
     var form = $(this);
@@ -52,7 +51,7 @@ $("#apiForm").submit(function (e) {
             const object = JSON.parse(data);
             document.getElementById("status-code").value = object.StatusCode;
             document.getElementById("resp-content-type").value = object.ContentType;
-            document.getElementById("response").innerHTML = object.Body;
+            document.getElementById("response").value = object.Body;
         },
         error: () => {
             alert("An unknown error has occurred");
