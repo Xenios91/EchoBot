@@ -18,14 +18,14 @@ type response struct {
 	Body        string
 }
 
-func checkURL(url string) bool {
+func checkURL(url string) (bool, string) {
 	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
 		url = fmt.Sprintf("http://%s", url)
 	}
 	regex := "((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)"
 	match, err := regexp.MatchString(regex, url)
 
-	return match && (err == nil)
+	return match && (err == nil), url
 }
 
 func submitHTTPRequest(httpMethod, url, contentType string, body io.Reader) (*response, error) {
@@ -79,12 +79,14 @@ func getAPIResponse(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "ParseFormError", http.StatusBadRequest)
 			return
 		}
+
+		var validURL bool
 		var httpMethod string = r.FormValue("http-method")
 		var url string = r.FormValue("url")
 		var contentType string = r.FormValue("content-type")
 		var body io.Reader = strings.NewReader(r.FormValue("request-body"))
 
-		if !checkURL(url) {
+		if validURL, url = checkURL(url); !validURL {
 			http.Error(w, "invalid url", http.StatusBadRequest)
 			return
 		}

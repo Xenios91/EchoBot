@@ -3,7 +3,7 @@
     <form method="POST" action="/getAPIResponse" id="apiForm">
         <div class="form-group">
             <label>HTTP Method</label>
-            <select class="form-control" id="http-method" name="http-method">
+            <select onchange="methodSelectionChange()" class="form-control" id="http-method" name="http-method">
                 <option>GET</option>
                 <option>POST</option>
             </select>
@@ -22,7 +22,7 @@
         </div>
         <div class="form-group">
             <label>Request Body</label>
-            <textarea class="form-control" id="request-body" name="request-body" rows="5"></textarea>
+            <textarea class="form-control" id="request-body" name="request-body" rows="5" style="display: none;"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <button onclick="history.back()" type="button" class="btn btn-primary ml-4">Back</button>

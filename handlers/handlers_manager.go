@@ -10,4 +10,5 @@ func LoadHandlers() {
 	http.HandleFunc("/createEchoRequest", createEchoRequestHandler)
 	http.HandleFunc("/getAPIResponse", getAPIResponse)
 	http.Handle("/static/images/", http.StripPrefix("/static/images/", http.FileServer(http.Dir("static/images/"))))
+	http.Handle("/static/scripts/", http.StripPrefix("/static/scripts/", http.FileServer(http.Dir("static/scripts/"))))
 }
