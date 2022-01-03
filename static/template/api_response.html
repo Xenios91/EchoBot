@@ -1,52 +1,55 @@
 {{define "body"}}
-<div class="row border rounded mt-5">
-    <div class="col">
-        <h3 class="mt-2">Request</h3>
-        <form method="POST" action="/getAPIResponse" id="apiForm">
-            <div class="form-group">
-                <label>HTTP Method</label>
-                <select onchange="methodSelectionChange()" class="form-control" id="http-method" name="http-method">
-                    <option>GET</option>
-                    <option>POST</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Content Type</label>
-                <select class="form-control" id="content-type" name="content-type">
-                    <option>application/json</option>
-                    <option>application/xml</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>URL</label>
-                <input type="text" class="form-control" id="url" name="url" placeholder="http://www.example.com"
-                    required>
-                <span class="text-danger" id="url-error" style="display: none;">Invalid URL</span>
-            </div>
-            <div class="form-group" id="request-body-div">
-                <textarea class="form-control" placeholder="Request Body" id="request-body" name="request-body"
-                    style="display: none;" rows="5"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button onclick="history.back()" type="button" class="btn btn-primary ml-4">Back</button>
-        </form>
-    </div>
-    <div class="col border-left px-5">
-        <h3 class="mt-2">Response</h3>
-        <form>
-            <div class="form-group">
-                <label>Status Code</label>
-                <input type="text" class="form-control" name="status-code" id="status-code" disabled>
-            </div>
-            <div class="form-group">
-                <label>Content Type</label>
-                <input type="text" class="form-control" name="resp-content-type" id="resp-content-type" disabled>
-            </div>
-            <div class="form-group">
-                <label>Response</label>
-                <textarea class="form-control" id="response" name="response" rows="8" disabled></textarea>
-            </div>
-        </form>
+<div class="container-fluid">
+    <div class="row mt-5 px-3">
+        <div class="col-lg-5 border rounded px-5 pb-3">
+            <h3 class="mt-2 pb-3">Request</h3>
+            <form method="POST" action="/getAPIResponse" id="apiForm">
+                <div class="form-group">
+                    <label>HTTP Method</label>
+                    <select onchange="methodSelectionChange()" class="form-control" id="http-method" name="http-method">
+                        <option>GET</option>
+                        <option>POST</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Content Type</label>
+                    <select class="form-control" id="content-type" name="content-type">
+                        <option>application/json</option>
+                        <option>application/xml</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>URL</label>
+                    <input type="text" class="form-control" id="url" name="url" placeholder="http://www.example.com"
+                        required>
+                    <span class="text-danger" id="url-error" style="display: none;">Invalid URL</span>
+                </div>
+                <div class="form-group" id="request-body-div">
+                    <textarea class="form-control" placeholder="Request Body" id="request-body" name="request-body"
+                        style="display: none;" rows="5"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button onclick="history.back()" type="button" class="btn btn-primary ml-4">Back</button>
+            </form>
+        </div>
+        <div class="col-sm"></div>
+        <div class="col-lg-5 border rounded px-5">
+            <h3 class="mt-2 pb-3">Response</h3>
+            <form>
+                <div class="form-group">
+                    <label>Status Code</label>
+                    <input type="text" class="form-control" name="status-code" id="status-code" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Content Type</label>
+                    <input type="text" class="form-control" name="resp-content-type" id="resp-content-type" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Response</label>
+                    <textarea class="form-control" id="response" name="response" rows="8" disabled></textarea>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 {{end}}

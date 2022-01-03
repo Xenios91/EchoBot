@@ -1,9 +1,18 @@
 {{define "body"}}
-<div class="mx-5">
+<div class=" container-fluid mt-5 border pt-3 pb-3 px-3">
     Your echo URL:
     <br />
-    <strong>{{.URL}}</strong>
+    <span id="url"><strong>{{.URL}}</strong></span>
     <br />
+    <button id="copy-btn" onclick="copyContent('#url')" type="button" class="btn btn-primary mt-4 mr-3">Copy
+        URL</button>
     <button onclick="history.back()" type="button" class="btn btn-primary mt-4">Back</button>
 </div>
+<script>
+    function copyContent(element) {
+        const urlElement = document.getElementById("url");
+        window.getSelection().selectAllChildren(urlElement);
+        document.execCommand("Copy")
+    }
+</script>
 {{end}}
