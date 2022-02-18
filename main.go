@@ -3,11 +3,14 @@ package main
 import (
 	handlers "EchoBot/handlers"
 	service "EchoBot/service"
+	"flag"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
-	"strconv"
+
+	"gopkg.in/Graylog2/go-gelf.v2/gelf"
 )
 
 func main() {
@@ -23,21 +26,32 @@ func startServices() {
 	service.RunTimedTask()
 }
 
+func grayLogConfig(graylogAddr *string) {
+	if len(*graylogAddr) > 0 {
+		gelfWriter, err := gelf.NewTCPWriter(*graylogAddr)
+		if err != nil {
+			log.Fatalf("gelf.NewWriter: %s", err)
+		}
+		// log to both stderr and graylog2
+		log.SetOutput(io.MultiWriter(os.Stderr, gelfWriter))
+		log.Printf("logging to stderr & graylog2@'%s'\n", *graylogAddr)
+	}
+}
+
 func startServer() {
 	loadHandlers()
+
+	var graylogServer string
+	flag.StringVar(&graylogServer, "graylog", "", "The graylog server and port to utilize [Example: -graylog=http:www.graylog.com:8080")
+
+	var port int
+	flag.IntVar(&port, "port", 8080, "Port number for EchoBot to run on.")
+
+	flag.Parse()
+
+	grayLogConfig(&graylogServer)
 	startServices()
 
-	var port string
-	if len(os.Args) > 1 {
-		if _, err := strconv.Atoi(os.Args[1]); err != nil {
-			log.Println(fmt.Sprintf("Port cannot be [%s], assigning default port 8080", os.Args[1]))
-		} else {
-			port = os.Args[1]
-		}
-	} else {
-		port = "8080"
-	}
-
-	log.Printf("EchoBot server started on port %s!\n", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
+	log.Printf("EchoBot server started on port %d!\n", port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
 }
