@@ -11,4 +11,4 @@ A simple web application to use to echo back string data to test frontends and b
 ./EchoBot (Default port 8080)
 
 ### Setting EchoBot Port
-./EchoBot {PORT_NUM}
+./EchoBot -port={PORT_NUM}
