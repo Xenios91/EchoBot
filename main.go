@@ -34,7 +34,7 @@ func grayLogConfig(graylogAddr *string) {
 		}
 		// log to both stderr and graylog2
 		log.SetOutput(io.MultiWriter(os.Stderr, gelfWriter))
-		log.Printf("logging to stderr & graylog2@'%s'\n", *graylogAddr)
+		log.Printf("logging to stderr & graylog2 at: [%s]\n", *graylogAddr)
 	}
 }
 
