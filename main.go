@@ -41,15 +41,10 @@ func grayLogConfig(graylogAddr *string) {
 func startServer() {
 	loadHandlers()
 
-	var graylogServer string
-	flag.StringVar(&graylogServer, "graylog", "", "The graylog server and port to utilize [Example: -graylog=http:www.graylog.com:8080")
+	var graylogServer = flag.String("graylog", "", "The graylog server and port to utilize [Example: -graylog=http:www.graylog.com:8080")
+	var port = flag.Int("port", 8080, "Port number for EchoBot to run on. [Example: -port=8888")
 
-	var port int
-	flag.IntVar(&port, "port", 8080, "Port number for EchoBot to run on.")
-
-	flag.Parse()
-
-	grayLogConfig(&graylogServer)
+	grayLogConfig(graylogServer)
 	startServices()
 
 	log.Printf("EchoBot server started on port %d!\n", port)
