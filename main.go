@@ -29,6 +29,6 @@ func startServer() {
 
 	startServices()
 
-	log.Printf("EchoBot server started on port %d!\n", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
+	log.Printf("EchoBot server started on port %d!\n", *port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), nil))
 }
