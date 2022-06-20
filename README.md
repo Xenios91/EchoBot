@@ -13,3 +13,6 @@ A simple web application to use to echo back string data to test frontends and b
 
 ### Setting EchoBot Port
 ./EchoBot -port={PORT_NUM}
+
+### Other
+Log server capabilities now available.
