@@ -36,8 +36,8 @@ $("#apiForm").submit(function (e) {
     e.preventDefault();
     resetForm();
 
-    var form = $(this);
-    var url = form.attr("action");
+    const form = $(this);
+    const url = form.attr("action");
 
     if (!validateURL(document.getElementById("url").value)) {
         return;
