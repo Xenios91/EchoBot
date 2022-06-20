@@ -12,6 +12,8 @@ import (
 	"time"
 )
 
+const errorStringFormat = "Error: %s"
+
 type echoURL struct {
 	URL string
 }
@@ -37,12 +39,12 @@ func createEchoRequestHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		tmpl, _ := template.ParseFiles("static/template/default_template.html", "static/template/echo_request.html")
 		if err := tmpl.ExecuteTemplate(w, "layout", nil); err != nil {
-			log.Printf("Error: %s", err)
+			log.Printf(errorStringFormat, err)
 			http.Error(w, "Server Error", http.StatusInternalServerError)
 		}
 	} else {
 		if err := r.ParseForm(); err != nil {
-			log.Printf("Error: %s", err)
+			log.Printf(errorStringFormat, err)
 			http.Error(w, "ParseFormError", http.StatusBadRequest)
 			return
 		}
@@ -60,7 +62,7 @@ func createEchoRequestHandler(w http.ResponseWriter, r *http.Request) {
 		echoURL := echoURL{URL: requestURL}
 
 		if err := tmpl.ExecuteTemplate(w, "layout", echoURL); err != nil {
-			log.Printf("Error: %s", err)
+			log.Printf(errorStringFormat, err)
 			http.Error(w, "ParseFormError", http.StatusInternalServerError)
 		}
 	}
